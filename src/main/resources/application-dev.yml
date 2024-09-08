@@ -1,12 +1,27 @@
+profile:
+  name: dev
+
+server:
+  shutdown: graceful
+  port: 8081
+  servlet:
+    session:
+      timeout: 3600s
+
 spring:
   session:
     store-type: redis
     redis:
       flush-mode: immediate
+      serializer:
+        session:
+          json:
+            enabled: true
   data:
     redis:
       host: localhost
       port: 6379
+      password:
   datasource:
     url: jdbc:mysql://localhost:3306/payment
     username: root
