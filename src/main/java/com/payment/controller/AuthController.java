@@ -5,11 +5,12 @@ import com.payment.dto.LoginDto.LoginResponse;
 import com.payment.dto.LoginDto.SignUpRequest;
 import com.payment.dto.LoginDto.SignUpResponse;
 import com.payment.service.AuthService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/auth")
@@ -19,8 +20,8 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest loginRequest, HttpSession session) {
-        return authService.login(loginRequest, session);
+    public LoginResponse login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
+        return authService.login(loginRequest, request);
     }
 
     @PostMapping("/signup")

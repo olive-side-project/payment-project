@@ -16,7 +16,6 @@ public class LoginDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class LoginResponse {
-        private String message;
         private String sessionId;
     }
 

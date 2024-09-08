@@ -1,5 +1,7 @@
 package com.payment.entity;
 
+import com.payment.enumCode.UserStatus;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -23,7 +25,8 @@ public class UserEntity {
     private String password;
 
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
