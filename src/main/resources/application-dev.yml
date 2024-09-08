@@ -32,3 +32,11 @@ spring:
     show-sql: true
   security:
     enabled: false
+
+toss:
+  payment:
+    secret-key:
+    base-url: https://api.tosspayments.com/v1/payments
+    confirm-endpoint: /confirm
+    read-timeout: 5000
+    connection-timeout: 3000

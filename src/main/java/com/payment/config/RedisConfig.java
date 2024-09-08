@@ -13,6 +13,9 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
+/**
+ * Redis 연결과 설정을 구성합니다.
+ */
 @Configuration
 @EnableRedisHttpSession
 public class RedisConfig {
@@ -31,6 +34,7 @@ public class RedisConfig {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setHostName(redisHost);
         redisStandaloneConfiguration.setPort(redisPort);
+
         if (StringUtils.isNotEmpty(redisPassword)) {
             redisStandaloneConfiguration.setPassword(redisPassword);
         }
@@ -47,6 +51,7 @@ public class RedisConfig {
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
+
         return redisTemplate;
     }
 }
