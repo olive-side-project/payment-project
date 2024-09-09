@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
- * 토스 페이먼츠 결제 API의 설정 정보를 관리합니다.
+ * 토스 페이먼츠 API 통신에 필요한 설정 정보를 관리합니다.
  */
 @Data
 @Component
