@@ -20,8 +20,11 @@ public class LoginDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class LoginResponse {
-        @Schema(description = "서버에서 발급한 세션 ID")
-        private String sessionId;
+        @Schema(description = "사용자 순번")
+        private long userSeq;
+
+        @Schema(description = "이메일")
+        private String email;
     }
 
     @Data
@@ -37,8 +40,8 @@ public class LoginDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class SignUpResponse {
-        @Schema(description = "사용자 ID")
-        private Long userId;
+        @Schema(description = "사용자 순번")
+        private Long userSeq;
 
         @Schema(description = "회원가입 완료 메시지")
         private String message;

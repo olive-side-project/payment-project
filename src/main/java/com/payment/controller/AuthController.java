@@ -1,50 +1,57 @@
 package com.payment.controller;
 
+import com.payment.annotation.Public;
+import com.payment.auth.AuthenticationUser;
+import com.payment.auth.JwtService;
+import com.payment.auth.SessionService;
 import com.payment.dto.LoginDto.LoginRequest;
 import com.payment.dto.LoginDto.LoginResponse;
 import com.payment.dto.LoginDto.SignUpRequest;
 import com.payment.dto.LoginDto.SignUpResponse;
+import com.payment.exception.PaymentException;
 import com.payment.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@Tag(name = "AUTH 컨트롤러")
-@RequestMapping("/auth")
 @RequiredArgsConstructor
+@Tag(name = "인증 API")
 public class AuthController {
-
     private final AuthService authService;
+    private final SessionService sessionService;
+    private final JwtService jwtService;
 
+    @Public
     @PostMapping("/login")
     @Operation(summary = "로그인")
-    public LoginResponse login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
-        return authService.login(loginRequest, request);
-    }
+    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
+        AuthenticationUser authUser = authService.authenticateAndCreateSession(loginRequest);
+        String jwt = jwtService.generateJwt(authUser.getUserSeq());
+        sessionService.setAuthUser(jwt, authUser);
 
-    @PostMapping("/signup")
-    @Operation(summary = "회원가입")
-    public SignUpResponse signup(@RequestBody SignUpRequest signUpRequest) {
-        return authService.signup(signUpRequest);
+        return new LoginResponse(authUser.getUserSeq(), authUser.getEmail());
     }
 
     @PostMapping("/logout")
     @Operation(summary = "로그아웃")
-    public String logout(HttpSession session) {
-        authService.logout(session);
-        return "Logged out";
+    public void logout(HttpServletRequest request) {
+        String token = (String) request.getAttribute("authToken");
+        if (token != null) {
+            sessionService.removeAuthUser(token);
+        } else {
+            throw new PaymentException("NO_TOKEN_FOUND", "No token found in request.", HttpStatus.UNAUTHORIZED);
+        }
     }
 
-    @GetMapping("/keep-alive")
-    @Operation(summary = "세션 유지", description = "세션 만료 시간을 연장하여 세션을 유지")
-    public ResponseEntity<String> keepAlive(HttpSession session) {
-        authService.keepAlive(session);
-        return ResponseEntity.ok("Session refreshed");
+    @Public
+    @PostMapping("/signup")
+    @Operation(summary = "회원가입")
+    public SignUpResponse signup(@RequestBody SignUpRequest signUpRequest) {
+        return authService.signup(signUpRequest);
     }
 }

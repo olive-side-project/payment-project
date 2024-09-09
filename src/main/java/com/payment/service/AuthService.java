@@ -1,20 +1,18 @@
 package com.payment.service;
 
+import com.payment.auth.AuthenticationUser;
+import com.payment.dao.UserDao;
 import com.payment.dto.LoginDto.LoginRequest;
-import com.payment.dto.LoginDto.LoginResponse;
 import com.payment.dto.LoginDto.SignUpRequest;
 import com.payment.dto.LoginDto.SignUpResponse;
 import com.payment.entity.UserEntity;
-import com.payment.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.Transactional;
+import com.payment.exception.PaymentException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 import static com.payment.enumCode.UserStatus.ACTIVE;
@@ -22,90 +20,54 @@ import static com.payment.enumCode.UserStatus.ACTIVE;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-
-    private final UserRepository userRepository;
-    private final StringRedisTemplate redisTemplate;
+    private final UserDao userDao;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public LoginResponse login(LoginRequest loginRequest, HttpServletRequest request) {
-        UserEntity userEntity = authenticateUser(loginRequest);
+    // 로그인과 세션 생성 및 JWT 발급을 처리하는 메서드
+    @Transactional
+    public AuthenticationUser authenticateAndCreateSession(LoginRequest loginRequest) {
+        // 가입여부 확인
+        UserEntity userEntity = findUserByEmail(loginRequest.getEmail());
 
-        if (userEntity != null) {
-            HttpSession newSession = createNewSession(request, userEntity.getEmail());
-            return new LoginResponse(newSession.getId());
-        } else {
-            return new LoginResponse(null);
+        // 비밀번호 검증
+        validatePassword(userEntity, loginRequest.getPassword());
+
+        // 최종 로그인 시간 저장
+        userDao.updateLastLoggedInAt(userEntity.getUserSeq());
+
+        // 로그인 성공 시 사용자 정보를 AuthenticationUser로 반환
+        return new AuthenticationUser(userEntity.getUserSeq(), userEntity.getEmail(), true);
+    }
+
+    private UserEntity findUserByEmail(String email) {
+        UserEntity userEntity = userDao.findByEmailAndStatus(email, ACTIVE);
+        if (userEntity == null) {
+            throw new PaymentException("NOT_FOUND_USER", "사용자를 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
         }
+
+        return userEntity;
     }
 
-    // 사용자 인증
-    private UserEntity authenticateUser(LoginRequest loginRequest) {
-        String email = loginRequest.getEmail();
-        String password = loginRequest.getPassword();
-
-        UserEntity userEntity = userRepository.findByEmailAndStatus(email, ACTIVE);
-        if (userEntity != null && passwordEncoder.matches(password, userEntity.getPassword())) {
-            return userEntity;
+    private void validatePassword(UserEntity userEntity, String password) {
+        if (!passwordEncoder.matches(password, userEntity.getPassword())) {
+            throw new PaymentException("INVALID_PASSWORD", "비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED);
         }
-
-        return null;
-    }
-
-    private HttpSession createNewSession(HttpServletRequest request, String email) {
-        // 동일 사용자가 새로운 로그인 시도 시 기존 세션을 무효화하고 Redis에서 삭제
-        invalidateOldSession(request);
-
-        HttpSession newSession = request.getSession(true);
-        newSession.setAttribute("user", email);
-
-        // 세션 ID, 사용자 정보 레디스에 저장
-        updateSessionInRedis(newSession.getId(), email);
-        return newSession;
-    }
-
-    private void invalidateOldSession(HttpServletRequest request) {
-        HttpSession oldSession = request.getSession(false);
-
-        if (oldSession != null) {
-            String oldSessionId = oldSession.getId();
-            oldSession.invalidate();
-            redisTemplate.delete(oldSessionId);
-        }
-    }
-
-    private void updateSessionInRedis(String sessionId, String email) {
-        redisTemplate.opsForValue().set(sessionId, email, Duration.ofHours(1));
     }
 
     @Transactional
     public SignUpResponse signup(SignUpRequest signUpRequest) {
-        String email = signUpRequest.getEmail();
-        String password = signUpRequest.getPassword();
-
-        UserEntity existingUserEntity = userRepository.findByEmailAndStatus(email, ACTIVE);
+        UserEntity existingUserEntity = userDao.findByEmailAndStatus(signUpRequest.getEmail(), ACTIVE);
         if (existingUserEntity != null) {
-            return new SignUpResponse(null, "Already exist user");
+            throw new PaymentException("USER_ALREADY_EXISTS", "이미 존재하는 사용자입니다.", HttpStatus.BAD_REQUEST);
         }
 
         UserEntity newUserEntity = new UserEntity();
-        newUserEntity.setEmail(email);
-        newUserEntity.setPassword(passwordEncoder.encode(password));
+        newUserEntity.setEmail(signUpRequest.getEmail());
+        newUserEntity.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         newUserEntity.setStatus(ACTIVE);
         newUserEntity.setCreatedAt(LocalDateTime.now());
-        userRepository.save(newUserEntity);
-        Long userId = newUserEntity.getUserSeq();
+        userDao.save(newUserEntity);
 
-        return new SignUpResponse(userId, "User registered successfully");
-    }
-
-    public void logout(HttpSession session) {
-        String sessionId = session.getId();
-        session.invalidate();
-        redisTemplate.delete(sessionId);
-    }
-
-    public void keepAlive(HttpSession session) {
-        String sessionId = session.getId();
-        redisTemplate.expire(sessionId, Duration.ofHours(1));
+        return new SignUpResponse(newUserEntity.getUserSeq(), newUserEntity.getEmail());
     }
 }

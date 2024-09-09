@@ -17,7 +17,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * 토스 페이먼츠 결제 API 와의 통신을 담당합니다.
+ * 토스 페이먼츠 API 와의 통신을 담당합니다.
  */
 @Component
 @Slf4j
