@@ -23,8 +23,8 @@ public class LoginDto {
         @Schema(description = "사용자 순번")
         private long userSeq;
 
-        @Schema(description = "이메일")
-        private String email;
+        @Schema(description = "토큰")
+        private String token;
     }
 
     @Data

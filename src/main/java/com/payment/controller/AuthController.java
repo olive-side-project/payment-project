@@ -34,7 +34,7 @@ public class AuthController {
         String jwt = jwtService.generateJwt(authUser.getUserSeq());
         sessionService.setAuthUser(jwt, authUser);
 
-        return new LoginResponse(authUser.getUserSeq(), authUser.getEmail());
+        return new LoginResponse(authUser.getUserSeq(), jwt);
     }
 
     @PostMapping("/logout")
