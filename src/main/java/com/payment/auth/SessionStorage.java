@@ -1,10 +1,12 @@
 package com.payment.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.payment.exception.PaymentException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -41,7 +43,7 @@ public class SessionStorage {
             String sessionStr = objectMapper.writeValueAsString(authUser);
             redisTemplate.opsForValue().set(jwt, sessionStr, duration);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new PaymentException("SESSION_ERROR", "Failed to set session in Redis", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

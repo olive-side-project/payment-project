@@ -163,9 +163,9 @@ public class JwtService {
         // 토큰을 복호화하여 원래의 JWT 문자열 반환
         String jwt = decrypt(token);
         if (StringUtils.isEmpty(jwt)) {
-            throw PaymentException.builder("FAIL_TOKEN_DECRYPT")
+            throw PaymentException.builder("FAIL_TOKEN_DECRYPT", HttpStatus.UNAUTHORIZED)
                     .message("TOKEN이 만료되었습니다")
-                    .statusCode(HttpStatus.UNAUTHORIZED).build();
+                    .build();
         }
 
         int keyIndexPosition = jwt.indexOf(":");
@@ -230,8 +230,8 @@ public class JwtService {
             int ivIndex = Integer.parseInt(tokens[1]);
             return new EncryptedValue(keyIndex, ivIndex, tokens[2]);
         } catch (Exception e) {
-            throw PaymentException.builder("FAIL_TOKEN_PARSE")
-                    .statusCode(HttpStatus.BAD_REQUEST)
+            throw PaymentException.builder("FAIL_TOKEN_PARSE", HttpStatus.BAD_REQUEST)
+                    .message("Failed to parse token indices.")
                     .build();
         }
     }
