@@ -1,6 +1,5 @@
 package com.payment.service;
 
-import com.payment.enumCode.PaymentErrorCode;
 import com.payment.exception.PaymentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,7 +53,7 @@ public class RedisService {
 
         // 저장된 금액과 요청된 금액이 일치하지 않는 경우
         if (!storedAmount.equals(requestAmount.toString())) {
-            throw new PaymentException(AMOUNT_MISMATCH.getMessage(), HttpStatus.BAD_REQUEST);
+            throw new PaymentException(AMOUNT_MISMATCH.getCode(), AMOUNT_MISMATCH.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
