@@ -3,9 +3,9 @@ package com.payment.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.payment.config.PaymentProperties;
-import com.payment.dto.TossPaymentDto.PaymentRequest;
-import com.payment.dto.TossPaymentDto.PaymentResponse;
 
+import com.payment.dto.PaymentsConfirmRequest;
+import com.payment.dto.PaymentsConfirmResponse;
 import com.payment.exception.PaymentException;
 import com.payment.interceptor.PaymentExceptionInterceptor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,9 +44,9 @@ public class PaymentClient {
     }
 
     // 결제 확인 요청 API 호출
-    public PaymentResponse confirmPayments(PaymentRequest paymentRequest) {
+    public PaymentsConfirmResponse confirmPayments(PaymentsConfirmRequest confirmRequest) {
         String url = buildPaymentConfirmUrl();
-        HttpEntity<PaymentRequest> entity = new HttpEntity<>(paymentRequest, paymentClientConfig.createHeaders());
+        HttpEntity<PaymentsConfirmRequest> entity = new HttpEntity<>(confirmRequest, paymentClientConfig.createHeaders());
 
         try {
             ResponseEntity<String> response = restTemplate.exchange(
@@ -61,7 +61,7 @@ public class PaymentClient {
 
             ObjectMapper objectMapper = new ObjectMapper();
             try {
-                return objectMapper.readValue(responseBody, PaymentResponse.class);
+                return objectMapper.readValue(responseBody, PaymentsConfirmResponse.class);
             } catch (JsonProcessingException e) {
                 log.error("JSON 파싱 중 오류 발생: {}", e.getMessage());
                 throw new PaymentException("UNKNOWN_ERROR", "결제 확인 중 JSON 파싱 오류가 발생했습니다.", e);
