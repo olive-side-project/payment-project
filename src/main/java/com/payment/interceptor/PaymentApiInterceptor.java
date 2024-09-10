@@ -20,8 +20,23 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @RequiredArgsConstructor
 @Component
 public class PaymentApiInterceptor implements HandlerInterceptor {
+    private static final String[] PUBLIC_PATHS = {
+            "/v3/api-docs/",
+            "/swagger-ui/",
+            "/swagger-resources/",
+            "/webjars/"
+    };
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        String requestURI = request.getRequestURI();
+
+        for (String path : PUBLIC_PATHS) {
+            if (requestURI.startsWith(path)) {
+                return true;
+            }
+        }
+
         if (handler instanceof HandlerMethod method) {
             // @Public 이 붙은 메서드나 클래스는 인증 및 권한 체크를 생략
             if (isPublicMethod(method)) {
@@ -46,7 +61,7 @@ public class PaymentApiInterceptor implements HandlerInterceptor {
     private AuthenticationUser getAuthenticationUser(HttpServletRequest request) {
         AuthenticationUser authUser = (AuthenticationUser) request.getAttribute("authUser");
         if (authUser == null) {
-            throw new PaymentException("UNAUTHORIZED", "UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
+            throw new PaymentException("UNAUTHORIZED", "인증된 사용자가 아닙니다.", HttpStatus.UNAUTHORIZED);
         }
 
         return authUser;
