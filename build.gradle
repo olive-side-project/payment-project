@@ -67,6 +67,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.hibernate.validator:hibernate-validator'
     implementation 'jakarta.validation:jakarta.validation-api:3.0.0'
+
+    implementation 'org.apache.httpcomponents:httpclient5:5.2'
 }
 
 tasks.named('test') {
