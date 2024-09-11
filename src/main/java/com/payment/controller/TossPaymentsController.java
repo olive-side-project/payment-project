@@ -19,15 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class TossPaymentsController {
     private final TossPaymentService tossPaymentService;
 
-    @Public
     @PostMapping("/toss/payments/confirm")
     @Operation(summary = "토스 결제 승인")
     public PaymentsConfirmResponse confirmPayments(@RequestBody @Valid PaymentsConfirmRequest confirmRequest) {
         return tossPaymentService.confirmPayments(confirmRequest);
     }
 
-    @Public
-    @PostMapping("/toss/payment/info")
+    @PostMapping("/toss/payments/info")
     @Operation(summary = "토스 결제주문번호 및 최종주문금액 저장")
     public void savePaymentInfo(@RequestBody @Valid PaymentSaveRequest paymentSaveRequest) {
         tossPaymentService.savePaymentInfo(paymentSaveRequest.getOrderId(), paymentSaveRequest.getAmount());
