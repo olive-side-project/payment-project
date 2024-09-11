@@ -29,7 +29,7 @@ public class TossPaymentsController {
     @Public
     @PostMapping("/toss/payment/info")
     @Operation(summary = "토스 결제주문번호 및 최종주문금액 저장")
-    public void savePaymentInfo(@RequestBody PaymentSaveRequest paymentSaveRequest) {
+    public void savePaymentInfo(@RequestBody @Valid PaymentSaveRequest paymentSaveRequest) {
         tossPaymentService.savePaymentInfo(paymentSaveRequest.getOrderId(), paymentSaveRequest.getAmount());
     }
 }

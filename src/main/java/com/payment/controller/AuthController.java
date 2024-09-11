@@ -12,6 +12,7 @@ import com.payment.exception.PaymentException;
 import com.payment.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class AuthController {
     @Public
     @PostMapping("/login")
     @Operation(summary = "로그인")
-    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
+    public LoginResponse login(@RequestBody @Valid LoginRequest loginRequest) {
         AuthenticationUser authUser = authService.authenticateAndCreateSession(loginRequest);
         String jwt = jwtService.generateJwt(authUser.getUserSeq());
         sessionService.setAuthUser(jwt, authUser);
@@ -51,7 +52,7 @@ public class AuthController {
     @Public
     @PostMapping("/signup")
     @Operation(summary = "회원가입")
-    public SignUpResponse signup(@RequestBody SignUpRequest signUpRequest) {
+    public SignUpResponse signup(@RequestBody @Valid SignUpRequest signUpRequest) {
         return authService.signup(signUpRequest);
     }
 }

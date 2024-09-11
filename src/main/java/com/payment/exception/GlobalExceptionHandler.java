@@ -3,10 +3,16 @@ package com.payment.exception;
 import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 예외를 전역적으로 처리하는 핸들러입니다.
@@ -43,6 +49,18 @@ public class GlobalExceptionHandler {
             message = "서버 내부 오류가 발생했습니다.";
         }
         return buildErrorResponse("HTTP_SERVER_ERROR", message, status);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        BindingResult bindingResult = ex.getBindingResult();
+        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+
+        String errorMsg = fieldErrors.stream()
+                .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+                .collect(Collectors.joining("; "));
+
+        return buildErrorResponse("VALIDATION_ERROR", errorMsg, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
