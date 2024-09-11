@@ -38,9 +38,10 @@ spring:
 
 toss:
   payment:
-    secret-key:
-    base-url: https://api.tosspayments.com/v1/payments
-    confirm-endpoint: /confirm
+    secret-key: test_sk_4yKeq5bgrpoJ41wmLLBAVGX0lzW6
+    base-url: https://api.tosspayments.com
+    confirm-endpoint: /v1/payments/confirm
+    transaction-endpoint: /v1/transactions
     read-timeout: 5000
     connection-timeout: 3000
 

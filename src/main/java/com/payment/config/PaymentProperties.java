@@ -16,6 +16,9 @@ public class PaymentProperties {
     @Value("${toss.payment.confirm-endpoint}")
     private String tossPaymentConfirmEndpoint;
 
+    @Value("${toss.payment.transaction-endpoint}")
+    private String tossPaymentTransactionEndpoint;
+
     @Value("${toss.payment.secret-key}")
     private String tossPaymentSecretKey;
 
