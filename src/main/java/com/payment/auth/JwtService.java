@@ -93,7 +93,7 @@ public class JwtService {
                 .setIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .signWith(secretKeys.get(keyIndex))
                 .compact();
-        String token = keyIndex + ":" + jwt;
+        String token = keyIndex + "-" + jwt;
 
         // 더 안전하게 하기 위해서 한 번 더 암호화
         return encrypt(token);
@@ -113,7 +113,7 @@ public class JwtService {
             byte[] plainText = cipher.doFinal(str.getBytes(StandardCharsets.UTF_8));
 
             // 결과 문자열을 생성: 키와 초기화 벡터의 인덱스 정보와 암호화된 데이터를 Base64로 인코딩하여 조합
-            return String.format("%d:%d:%s", key.getIndex(), iv.getIndex(), Base64.getUrlEncoder().encodeToString(plainText));
+            return String.format("%d-%d-%s", key.getIndex(), iv.getIndex(), Base64.getUrlEncoder().encodeToString(plainText));
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -168,7 +168,7 @@ public class JwtService {
                     .build();
         }
 
-        int keyIndexPosition = jwt.indexOf(":");
+        int keyIndexPosition = jwt.indexOf("-");
         if (keyIndexPosition <= 0) {
             return null;
         }
@@ -224,8 +224,8 @@ public class JwtService {
         }
 
         try {
-            //  ":" 기준으로 문자열을 3개의 토큰으로 나눔
-            String[] tokens = encrypted.split("\\:", 3);
+            //  "-" 기준으로 문자열을 3개의 토큰으로 나눔
+            String[] tokens = encrypted.split("-", 3);
             int keyIndex = Integer.parseInt(tokens[0]);
             int ivIndex = Integer.parseInt(tokens[1]);
             return new EncryptedValue(keyIndex, ivIndex, tokens[2]);
