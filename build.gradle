@@ -68,7 +68,11 @@ dependencies {
     implementation 'org.hibernate.validator:hibernate-validator'
     implementation 'jakarta.validation:jakarta.validation-api:3.0.0'
 
-    implementation 'org.apache.httpcomponents:httpclient5:5.2'
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.1'
+}
+
+tasks.named('bootJar') {
+    archiveFileName = 'payment-api.jar'
 }
 
 tasks.named('test') {

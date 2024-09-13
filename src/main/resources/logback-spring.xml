@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration>
-    <logger name="jdbc" level="OFF"/>
-    <logger name="jdbc.sqlonly"   level="OFF"/>
-    <logger name="jdbc.sqltiming" level="DEBUG"/> <!-- SQL 쿼리의 실행시간 -->
-    <logger name="jdbc.audit"     level="OFF"/>
-    <logger name="jdbc.resultset" level="OFF"/>
-    <logger name="jdbc.resultsettable" level="OFF"/>
-    <logger name="jdbc.connection" level="OFF"/>
-
     <property name="FILE_LOG_PATH" value="/log/log.out"/> <!-- 로그 파일 저장 경로 지정 | 클라우드 서버 생성 후 변경 예정 -->
     <property name="FILE_LOG_ROLLING_PATH" value="/log/log_%d{yyyy-MM-dd}.log"/> <!-- 날짜별로 로링되는 로그 파일 이름 패턴 | 클라우드 서버 생성 후 변경 예정 -->
     <property name="FILE_LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5level] [%logger{36}:%L] ### %msg%n"/> <!-- 로그 메시지의 출력 형식 -->
