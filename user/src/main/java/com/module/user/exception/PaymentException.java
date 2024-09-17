@@ -1,4 +1,4 @@
-package com.module.payment.exception;
+package com.module.user.exception;
 
 import com.module.user.enumCode.PaymentErrorCode;
 import lombok.Builder;

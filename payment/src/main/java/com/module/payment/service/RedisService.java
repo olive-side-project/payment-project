@@ -1,6 +1,6 @@
 package com.module.payment.service;
 
-import com.module.payment.enumCode.PaymentStatus;
+import com.module.user.enumCode.PaymentStatus;
 import com.module.payment.exception.PaymentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
-import static com.module.payment.enumCode.PaymentErrorCode.*;
+import static com.module.user.enumCode.PaymentErrorCode.*;
 import static java.lang.Boolean.*;
 
 @Service

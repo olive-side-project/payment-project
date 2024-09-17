@@ -110,17 +110,17 @@ public class PaymentClient {
 
             return parseJsonArray(responseEntity.getBody());
 
+        } catch (RestClientResponseException e) {
+            log.error("RestClientResponseException - Status Code: {}, Response Body: {}",
+                    e.getRawStatusCode(), e.getResponseBodyAsString());
+            handleErrorResponse(e.getResponseBodyAsString());
+            throw new PaymentException("API_ERROR", "거래 목록 조회 중 API 오류가 발생했습니다.", e);
         } catch (Exception e) {
-            log.error("거래 목록 API 오류", e);
-            if (e instanceof RestClientResponseException) {
-                handleErrorResponse(((RestClientResponseException) e).getResponseBodyAsString());
-            } else {
-                throw new PaymentException("UNKNOWN_ERROR", "거래 목록 조회 중 알 수 없는 오류가 발생했습니다.", e);
-            }
+            log.error("거래 목록 API 처리 중 알 수 없는 오류가 발생했습니다.", e);
+            throw new PaymentException("UNKNOWN_ERROR", "거래 목록 조회 중 알 수 없는 오류가 발생했습니다.", e);
         }
-
-        return Collections.emptyList();
     }
+
 
     private void handleErrorResponse(String responseBody) {
         try {

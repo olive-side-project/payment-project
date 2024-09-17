@@ -1,0 +1,75 @@
+profile:
+  name: dev
+
+server:
+  shutdown: graceful
+  port: 8082
+
+spring:
+  session:
+    store-type: redis
+    redis:
+      flush-mode: immediate
+      serializer:
+        session:
+          json:
+            enabled: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+  datasource:
+    url: jdbc:mysql://localhost:3306/payment
+    username:
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  security:
+    enabled: false
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+
+toss:
+  payment:
+    secret-key: test_sk_4yKeq5bgrpoJ41wmLLBAVGX0lzW6
+    base-url: https://api.tosspayments.com
+    confirm-endpoint: /v1/payments/confirm
+    transaction-endpoint: /v1/transactions
+    read-timeout: 5000
+    connection-timeout: 3000
+
+web:
+  mvc:
+    jwt:
+      keys:
+        - DEKKW6jBSuj2sJVqxjlrKe/33wY9KWAm9kxpXb/cOVc7gIkC
+        - 3K7F9qzc4QSv6VcmKlHCmnyVLCD3I/pgxiDmUd443mrtbbBs
+        - H7ij1RCdiAgb7mkphrLWYKXJyKlB7CXwf/it95LqNai5chaO
+        - uWA+O7+H6m9anIox7/vhqim0TdHAB4PYP6wqPo9VrsJITbZZ
+        - HlClc31kVcgSSyevdM25gQTTybjz+W8YEGV/JxQL75YsMtDc
+        - CiF0wWhfoEhEEjTgsi9F5uJS73hrlno0Up7ZSJQDfbLQTR/f
+        - EPwvipaoR6/XW226Jnsh1hVx8kntiLfDj3m+6hemImlw3YHZ
+        - w6y0N8rrLGxg0T6lt/GQrNzIX2vCAwWCUb5YF+/HLobfcFqs
+    aes:
+      keys:
+        - DnEJkuHvQRJjVneve9o+oX4Yt24wrfZ3ymVApqrhecA=
+        - VZ+7cb+Q/vO0raabV6Kvv6l5K1e3rSUbmExYvEhunbA=
+        - SclBwxZa1AnGCBQ1XcZGxe7IvOmTIUbsJXqYSE+pxnk=
+        - S9Mj8FdpgXt/xFiHEYCJtm7oORMUFn3U6sLsPyfJvIA=
+        - RkuOH7Z4YaPnJ/o0oVtKOnnwAsUPWY/9aQ7CZAvhgYI=
+        - kcaBzubdXmf05/poOnRb4V8BbOy0E+4KCyKwH7eD+m0=
+        - 0J/TJ3QEmlErm5l+isMqS9YxbU0xRKUjWNWMFBkgxzs=
+        - 1LMRVKXyoP/EmAnHNbMOPPihOewtP7mFv/70Z3Wg4fk=
+      ivs:
+        - +wsdn1VIPz5xdFm2pxrpGQ==
+        - B56IfwrFQ75HWtHjkAAxew==
+        - s532ekrhDBUQWUigpAN61g==
+        - kVtwGvrMYApHw4hPBOZmsQ==
+        - LFBqxul2cgH6JS8lQ2bhHw==
+        - qogcgaTOwaJ7rhKApNn2mQ==
+        - L5DxxoYOIygPByAh/Z7aFg==
+        - cgICBt+KzE53EinNQfcpGQ==

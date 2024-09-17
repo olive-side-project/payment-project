@@ -1,8 +1,8 @@
 package com.module.payment.service;
 
 import com.module.payment.client.PaymentClient;
-import com.module.payment.enumCode.PaymentErrorCode;
-import com.module.payment.enumCode.PaymentStatus;
+import com.module.user.enumCode.PaymentErrorCode;
+import com.module.user.enumCode.PaymentStatus;
 import com.module.payment.dto.PaymentsConfirmRequest;
 import com.module.payment.dto.PaymentsConfirmResponse;
 import com.module.payment.exception.PaymentException;
