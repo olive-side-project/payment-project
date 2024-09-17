@@ -1,6 +1,6 @@
 package com.module.user.entity;
 
-import com.module.user.enumCode.UserStatus;
+import com.module.common.enumCode.UserStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

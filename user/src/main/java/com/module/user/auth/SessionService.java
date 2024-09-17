@@ -1,5 +1,6 @@
 package com.module.user.auth;
 
+import com.module.common.AuthenticationUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

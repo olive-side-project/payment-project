@@ -1,11 +1,12 @@
 package com.module.payment.service;
 
+import com.module.common.service.RedisService;
 import com.module.payment.client.PaymentClient;
-import com.module.user.enumCode.PaymentErrorCode;
-import com.module.user.enumCode.PaymentStatus;
+import com.module.common.enumCode.PaymentErrorCode;
+import com.module.common.enumCode.PaymentStatus;
 import com.module.payment.dto.PaymentsConfirmRequest;
 import com.module.payment.dto.PaymentsConfirmResponse;
-import com.module.payment.exception.PaymentException;
+import com.module.common.exception.PaymentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

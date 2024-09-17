@@ -2,7 +2,7 @@ package com.module.payment.service;
 
 import com.module.payment.client.PaymentClient;
 import com.module.payment.dto.PaymentsTransactionResponse;
-import com.module.payment.exception.PaymentException;
+import com.module.common.exception.PaymentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

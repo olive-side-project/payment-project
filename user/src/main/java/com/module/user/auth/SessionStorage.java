@@ -1,10 +1,11 @@
 package com.module.user.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.module.user.exception.PaymentException;
+import com.module.common.AuthenticationUser;
+import com.module.common.exception.PaymentException;
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

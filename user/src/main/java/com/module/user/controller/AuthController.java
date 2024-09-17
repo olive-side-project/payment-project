@@ -1,13 +1,13 @@
 package com.module.user.controller;
 
-import com.module.user.annotation.Public;
-import com.module.user.auth.AuthenticationUser;
+import com.module.common.AuthenticationUser;
+import com.module.common.annotation.Public;
+import com.module.common.exception.PaymentException;
 import com.module.user.auth.JwtService;
 import com.module.user.auth.SessionService;
 import com.module.user.dto.LoginDto;
 import com.module.user.dto.LoginDto.LoginRequest;
 import com.module.user.dto.LoginDto.LoginResponse;
-import com.module.user.exception.PaymentException;
 import com.module.user.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

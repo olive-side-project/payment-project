@@ -1,9 +1,9 @@
 package com.module.user.auth;
 
+import com.module.common.exception.PaymentException;
 import com.module.user.auth.dto.CryptoKeys;
 import com.module.user.auth.dto.EncryptedValue;
 import com.module.user.auth.dto.JWTKeys;
-import com.module.user.exception.PaymentException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtBuilder;

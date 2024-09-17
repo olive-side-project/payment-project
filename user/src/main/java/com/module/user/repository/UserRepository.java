@@ -1,7 +1,7 @@
 package com.module.user.repository;
 
 import com.module.user.entity.UserEntity;
-import com.module.user.enumCode.UserStatus;
+import com.module.common.enumCode.UserStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

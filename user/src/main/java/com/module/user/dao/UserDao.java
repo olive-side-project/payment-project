@@ -1,7 +1,7 @@
 package com.module.user.dao;
 
 import com.module.user.entity.UserEntity;
-import com.module.user.enumCode.UserStatus;
+import com.module.common.enumCode.UserStatus;
 import com.module.user.repository.UserRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -11,14 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
-
 @Log4j2
 @Service
 @RequiredArgsConstructor
 public class UserDao {
     private final UserRepository userRepository;
-
-    private final JPAQueryFactory queryFactory;
 
     public UserEntity findByEmailAndStatus(String email, UserStatus status) {
         return userRepository.findByEmailAndStatus(email, status);

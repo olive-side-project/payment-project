@@ -1,0 +1,6 @@
+profile:
+  name: prod
+
+server:
+  shutdown: graceful
+  port: 8083

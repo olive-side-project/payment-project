@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+    <property name="FILE_LOG_PATH" value="/log/log.out"/> <!-- 로그 파일 저장 경로 지정 | 클라우드 서버 생성 후 변경 예정 -->
+    <property name="FILE_LOG_ROLLING_PATH" value="/log/log_%d{yyyy-MM-dd}.log"/> <!-- 날짜별로 로링되는 로그 파일 이름 패턴 | 클라우드 서버 생성 후 변경 예정 -->
+    <property name="FILE_LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5level] [%logger{36}:%L] ### %msg%n"/> <!-- 로그 메시지의 출력 형식 -->
+
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%15.15t] %-40.40logger{39} : %m%n"/>
+
+    <springProfile name="dev">
+        <appender name="console" class="ch.qos.logback.core.ConsoleAppender"> <!-- 로그를 OutputStream 에 작성하여 콘솔에 출력 -->
+            <encoder>
+                <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+            </encoder>
+        </appender>
+        <logger name="org.hibernate.SQL" level="DEBUG" /> <!-- SQL 쿼리 -->
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" /> <!-- SQL 쿼리의 바인딩 값 -->
+        <logger name="org.hibernate.transaction" level="TRACE" /> <!-- 트랜잭션 관련 -->
+        <logger name="org.hibernate.hql.internal.ast" level="TRACE" /> <!-- HQL 쿼리 -->
+
+        <root level="INFO">
+            <appender-ref ref="console"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="stg">
+        <appender name="dailyRolling" class="ch.qos.logback.core.rolling.RollingFileAppender"> <!-- FileAppender 는 파일에 로그를 출력하며, 최대 보관 일수, 파일 용량 등을 지정 -->
+            <file>${FILE_LOG_PATH}</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${FILE_LOG_ROLLING_PATH}</fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <encoder>
+                <pattern>${FILE_LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+
+        <!-- 기본 로그 수준을 INFO 설정 -->
+        <root level="INFO">
+            <appender-ref ref="dailyRolling"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="prod">
+        <appender name="dailyRolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${FILE_LOG_PATH}</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${FILE_LOG_ROLLING_PATH}</fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <encoder>
+                <pattern>${FILE_LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="dailyRolling"/>
+        </root>
+    </springProfile>
+</configuration>

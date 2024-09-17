@@ -1,13 +1,13 @@
 package com.module.user.service;
 
-import com.module.user.auth.AuthenticationUser;
+import com.module.common.AuthenticationUser;
+import com.module.common.exception.PaymentException;
 import com.module.user.dao.UserDao;
 import com.module.user.dto.LoginDto;
 import com.module.user.dto.LoginDto.LoginRequest;
 import com.module.user.dto.LoginDto.SignUpResponse;
 import com.module.user.entity.UserEntity;
-import com.module.user.enumCode.UserStatus;
-import com.module.user.exception.PaymentException;
+import com.module.common.enumCode.UserStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

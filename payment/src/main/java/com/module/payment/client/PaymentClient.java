@@ -8,7 +8,7 @@ import com.module.payment.dto.PaymentsConfirmRequest;
 import com.module.payment.dto.PaymentsConfirmResponse;
 import com.module.payment.dto.PaymentsTransactionResponse;
 import com.module.payment.dto.TossErrorDto;
-import com.module.payment.exception.PaymentException;
+import com.module.common.exception.PaymentException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

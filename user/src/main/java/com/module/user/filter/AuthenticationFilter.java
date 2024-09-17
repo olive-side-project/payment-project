@@ -1,6 +1,6 @@
 package com.module.user.filter;
 
-import com.module.user.auth.AuthenticationUser;
+import com.module.common.AuthenticationUser;
 import com.module.user.auth.SessionService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,7 +22,7 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-@Order(2)
+@Order(1)
 public class AuthenticationFilter extends OncePerRequestFilter {
     private final SessionService sessionService;
 
