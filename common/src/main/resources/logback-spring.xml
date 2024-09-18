@@ -18,8 +18,9 @@
         <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" /> <!-- SQL 쿼리의 바인딩 값 -->
         <logger name="org.hibernate.transaction" level="TRACE" /> <!-- 트랜잭션 관련 -->
         <logger name="org.hibernate.hql.internal.ast" level="TRACE" /> <!-- HQL 쿼리 -->
+        <logger name="com.module.common.interceptor" level="DEBUG"/>
 
-        <root level="INFO">
+        <root level="DEBUG">
             <appender-ref ref="console"/>
         </root>
     </springProfile>
