@@ -1,4 +1,4 @@
-package com.module.payment.dto;
+package com.module.payment.dto.toss;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentsConfirmRequest {
+public class TossPaymentsConfirmRequest {
     @NotNull(message = "결제 키는 필수입니다.")
     @Schema(description = "결제 키", example = "5EnNZRJGvaBX7zk2yd8ydw26XvwXkLrx9POLqKQjmAw4b0e1")
     private String paymentKey;

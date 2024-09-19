@@ -49,7 +49,7 @@ public class RedisService {
 
         // 저장된 금액이 존재하지 않는 경우
         if (storedAmount == null) {
-            throw new PaymentException(PAYMENT_PROCESSING_FAILED.getMessage(), HttpStatus.NOT_FOUND);
+            throw new PaymentException(PAYMENT_PROCESSING_FAILED.getCode(), PAYMENT_PROCESSING_FAILED.getMessage(), HttpStatus.NOT_FOUND);
         }
 
         // 저장된 금액과 요청된 금액이 일치하지 않는 경우

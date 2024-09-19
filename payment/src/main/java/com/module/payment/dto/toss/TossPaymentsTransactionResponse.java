@@ -1,4 +1,4 @@
-package com.module.payment.dto;
+package com.module.payment.dto.toss;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentsTransactionResponse {
+public class TossPaymentsTransactionResponse {
     @Schema(description = "결제 서비스 제공자 ID")
     private String mId;
 
