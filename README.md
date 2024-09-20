@@ -11,9 +11,9 @@
   <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white">
 </div>
 
-<br><br>
+<br><br><br>
 
-<div align=center><h1>📚 구현 상세 설명 </h1></div>
+<div align=center><h1>💻 구현 상세 설명 </h1></div><br>
 
 ### 1. TOSS 결제 API 구현
 
@@ -40,4 +40,11 @@
   - 동시 실행 시에도 로그 추적이 가능하게 하여 디버깅 효율성을 높였습니다. <br>
 - 로그백을 멀티프로파일로 설정하여, 환경에 따라 로그 수준을 조정하고
   - 필요한 정보만 효과적으로 수집하도록 하였습니다. <br><br>
+
+<br><br>
+
+<div align=center><h1>✍ 관련 블로깅 </h1></div><br>
+
+[AWS Lightsail로 HTTPS 서버를 구축해보다.](https://domean.tistory.com/327)
+  
 
