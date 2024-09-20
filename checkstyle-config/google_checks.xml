@@ -1,0 +1,48 @@
+<!DOCTYPE module PUBLIC "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+  "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+  <module name="TreeWalker">
+    <!-- '*' 형식의 import 사용을 피합니다. -->
+    <module name="AvoidStarImport"/>
+
+    <!-- 상수 이름 규칙을 검사합니다. -->
+    <module name="ConstantName"/>
+
+    <!-- 비어 있는 블록을 검사합니다. -->
+    <module name="EmptyBlock"/>
+
+    <!-- Exception을 잡는 규칙을 검사합니다. -->
+    <module name="IllegalCatch"/>
+
+    <module name="Indentation">
+      <!-- 기본 들여쓰기 오프셋 설정 -->
+      <property name="basicOffset" value="4"/>
+      <!-- 중괄호 조정 -->
+      <property name="braceAdjustment" value="0"/>
+      <!-- switch-case 들여쓰기 설정 -->
+      <property name="caseIndent" value="4"/>
+      <!-- 줄 바꿈 들여쓰기 설정 -->
+      <property name="lineWrappingIndentation" value="8"/>
+      <!-- 탭 너비 설정 -->
+      <property name="tabWidth" value="4"/>
+    </module>
+
+    <!-- 메소드 이름 규칙을 검사합니다. -->
+    <module name="MethodName"/>
+
+    <!-- if 문 등에서 중괄호 사용을 요구합니다. -->
+    <module name="NeedBraces"/>
+
+    <!-- 매개변수 이름 규칙을 검사합니다. -->
+    <module name="ParameterName"/>
+
+    <!-- 타입 이름 규칙을 검사합니다. -->
+    <module name="TypeName"/>
+  </module>
+
+  <!-- 최대 줄 길이를 설정합니다. -->
+  <module name="LineLength">
+    <property name="max" value="160"/>
+  </module>
+</module>

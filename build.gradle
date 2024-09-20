@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'io.spring.dependency-management' version '1.1.6'
+    id 'checkstyle'
 }
 
 group = 'com.payment'
@@ -15,8 +16,23 @@ java {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'checkstyle'
 
     repositories {
         mavenCentral()
+    }
+
+    checkstyle {
+        toolVersion = '8.29'
+        configFile = rootProject.file("checkstyle-config/google_checks.xml")
+        println "Checkstyle config file: ${rootProject.file('checkstyle-config/google_checks.xml').absolutePath}"
+    }
+
+    tasks.withType(Checkstyle) {
+        reports {
+            xml.required = false // XML 보고서 비활성화
+            html.required = true // HTML 보고서 활성화
+            html.outputLocation = file("${buildDir}/reports/checkstyle/checkstyle.html") // 각 서브 모듈의 빌드 디렉토리에 리포트 저장
+        }
     }
 }
