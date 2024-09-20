@@ -25,12 +25,13 @@ public class KakaoPaymentsService extends AbstractPaymentService {
 
     @Override
     protected String getOrderId(Object request) {
-        if (!(request instanceof KakaoPaymentsConfirmRequest kakaoRequest)) {
+        if (!(request instanceof KakaoPaymentsConfirmRequest)) {
             throw new IllegalArgumentException("Invalid request type for KakaoPaymentsService");
         }
-
+        KakaoPaymentsConfirmRequest kakaoRequest = (KakaoPaymentsConfirmRequest) request;
         return kakaoRequest.getTid();
     }
+
 
     @Override
     protected Long getAmount(Object request) {

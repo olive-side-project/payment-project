@@ -1,9 +1,11 @@
 package com.module.user.auth;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.module.common.AuthenticationUser;
 import com.module.common.exception.PaymentException;
 import io.micrometer.common.util.StringUtils;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -31,7 +33,7 @@ public class SessionStorage {
             redisTemplate.expire(token, duration);
             try {
                 return objectMapper.readValue(session, AuthenticationUser.class);
-            } catch (Exception e) {
+            } catch (IOException e) {
                 log.error("session parsing error {}", session, e);
             }
         }
@@ -43,11 +45,12 @@ public class SessionStorage {
         try {
             String sessionStr = objectMapper.writeValueAsString(authUser);
             redisTemplate.opsForValue().set(jwt, sessionStr, duration);
-        } catch (Exception e) {
+        } catch (JsonProcessingException e) {
             log.debug(e.toString());
             throw new PaymentException("SESSION_ERROR", "Failed to set session in Redis", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     public void removeSession(String token) {
         if (StringUtils.isNotBlank(token)) {

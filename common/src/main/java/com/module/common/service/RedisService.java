@@ -12,8 +12,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
-import static com.module.common.enumCode.PaymentErrorCode.*;
-import static java.lang.Boolean.*;
+
+import static com.module.common.enumCode.PaymentErrorCode.AMOUNT_MISMATCH;
+import static com.module.common.enumCode.PaymentErrorCode.PAYMENT_ALREADY_COMPLETED;
+import static com.module.common.enumCode.PaymentErrorCode.PAYMENT_PROCESSING_FAILED;
+import static com.module.common.enumCode.PaymentErrorCode.PAYMENT_PROCESSING_IN_PROGRESS;
+import static java.lang.Boolean.FALSE;
+
 
 @Service
 @RequiredArgsConstructor
